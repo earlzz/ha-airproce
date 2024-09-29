@@ -57,7 +57,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def device_info(self):
-       device_info(self.device)
+       return device_info(self.device)
 
     @property
     def supported_features(self):

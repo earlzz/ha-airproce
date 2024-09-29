@@ -66,7 +66,7 @@ class AirPurifierTempSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def device_info(self):
-       device_info(self.device)
+       return device_info(self.device)
 
     @property
     def state(self):
@@ -96,7 +96,7 @@ class AirPurifierHumiditySensor(CoordinatorEntity, SensorEntity):
 
     @property
     def device_info(self):
-       device_info(self.device)
+       return device_info(self.device)
 
     @property
     def state(self):
@@ -126,7 +126,7 @@ class AirPurifierPm25Sensor(CoordinatorEntity, SensorEntity):
 
     @property
     def device_info(self):
-       device_info(self.device)
+       return device_info(self.device)
 
     @property
     def state(self):
@@ -156,7 +156,7 @@ class AirPurifierPm10Sensor(CoordinatorEntity, SensorEntity):
 
     @property
     def device_info(self):
-       device_info(self.device)
+       return device_info(self.device)
 
     @property
     def state(self):
@@ -186,7 +186,7 @@ class AirPurifierVocSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def device_info(self):
-       device_info(self.device)
+       return device_info(self.device)
 
     @property
     def state(self):
