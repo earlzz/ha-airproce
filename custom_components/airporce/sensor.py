@@ -1,4 +1,5 @@
 import logging
+from .device import device_info
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import UnitOfTemperature, PERCENTAGE, CONCENTRATION_MICROGRAMS_PER_CUBIC_METER, CONCENTRATION_MILLIGRAMS_PER_CUBIC_METER
 from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator
@@ -19,33 +20,23 @@ async def async_setup_entry(hass, entry, async_add_entities):
         for device in group['devices']:
             sensors.extend([
                 AirPurifierTempSensor(
-                    name="Temperature",
-                    unique_id=f"{device['uuid']}-temp",
-                    device_id=device['id'],
+                    device=device,
                     coordinator=coordinator
                 ),
                 AirPurifierHumiditySensor(
-                    name="Humidity",
-                    unique_id=f"{device['uuid']}-humidity",
-                    device_id=device['id'],
+                    device=device,
                     coordinator=coordinator
                 ),
                 AirPurifierPm25Sensor(
-                    name="PM2.5",
-                    unique_id=f"{device['uuid']}-pm25",
-                    device_id=device['id'],
+                    device=device,
                     coordinator=coordinator
                 ),
                 AirPurifierPm10Sensor(
-                    name="PM10",
-                    unique_id=f"{device['uuid']}-pm10",
-                    device_id=device['id'],
+                    device=device,
                     coordinator=coordinator
                 ),
                 AirPurifierVocSensor(
-                    name="VOC",
-                    unique_id=f"{device['uuid']}-voc",
-                    device_id=device['id'],
+                    device=device,
                     coordinator=coordinator
                 ),
             ])
@@ -58,21 +49,24 @@ class AirPurifierTempSensor(CoordinatorEntity, SensorEntity):
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_icon = 'mdi:thermometer'
 
-    def __init__(self, name: str, unique_id: str, device_id: str, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
-        self._unique_id = unique_id
-        self._device_id = device_id
-        self._name = name
+        self.device = device
+        self._device_id = device['id']
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._unique_id
+        return f"{self.device['uuid']}-temp",
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return "Temperature"
+
+    @property
+    def device_info(self):
+       device_info(self.device)
 
     @property
     def state(self):
@@ -85,21 +79,24 @@ class AirPurifierHumiditySensor(CoordinatorEntity, SensorEntity):
     _attr_native_unit_of_measurement = PERCENTAGE
     _attr_icon = 'mdi:water-percent'
 
-    def __init__(self, name: str, unique_id: str, device_id: str, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
-        self._unique_id = unique_id
-        self._device_id = device_id
-        self._name = name
+        self.device = device
+        self._device_id = device['id']
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._unique_id
+        return f"{self.device['uuid']}-humidity",
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return "Humidity"
+
+    @property
+    def device_info(self):
+       device_info(self.device)
 
     @property
     def state(self):
@@ -112,21 +109,24 @@ class AirPurifierPm25Sensor(CoordinatorEntity, SensorEntity):
     _attr_native_unit_of_measurement = CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     _attr_icon = 'mdi:chart-scatter-plot'
 
-    def __init__(self, name: str, unique_id: str, device_id: str, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
-        self._unique_id = unique_id
-        self._device_id = device_id
-        self._name = name
+        self.device = device
+        self._device_id = device['id']
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._unique_id
+        return f"{self.device['uuid']}-pm25",
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return "PM2.5"
+
+    @property
+    def device_info(self):
+       device_info(self.device)
 
     @property
     def state(self):
@@ -139,21 +139,24 @@ class AirPurifierPm10Sensor(CoordinatorEntity, SensorEntity):
     _attr_native_unit_of_measurement = CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     _attr_icon = 'mdi:chart-scatter-plot-hexbin'
 
-    def __init__(self, name: str, unique_id: str, device_id: str, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
-        self._unique_id = unique_id
-        self._device_id = device_id
-        self._name = name
+        self.device = device
+        self._device_id = device['id']
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._unique_id
+        return f"{self.device['uuid']}-pm10",
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return "PM10"
+
+    @property
+    def device_info(self):
+       device_info(self.device)
 
     @property
     def state(self):
@@ -166,21 +169,24 @@ class AirPurifierVocSensor(CoordinatorEntity, SensorEntity):
     _attr_native_unit_of_measurement = CONCENTRATION_MILLIGRAMS_PER_CUBIC_METER
     _attr_icon = 'mdi:molecule'
 
-    def __init__(self, name: str, unique_id: str, device_id: str, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
-        self._unique_id = unique_id
-        self._device_id = device_id
-        self._name = name
+        self.device = device
+        self._device_id = device['id']
 
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return self._unique_id
+        return f"{self.device['uuid']}-voc"
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return self._name
+        return "VOC"
+
+    @property
+    def device_info(self):
+       device_info(self.device)
 
     @property
     def state(self):

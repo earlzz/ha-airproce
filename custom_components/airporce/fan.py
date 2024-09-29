@@ -1,4 +1,6 @@
 import logging
+
+from .device import device_info
 from .api import AirPorceApi
 from .const import DOMAIN, DATA_KEY_API, DATA_KEY_GROUPS, DATA_KEY_COORDINATOR
 from homeassistant.components.fan import FanEntity, SUPPORT_PRESET_MODE
@@ -20,9 +22,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     # Create a list of fan entities
     entities = [
         AirPurifierFan(
-            name=f"{device['model']}-{device['id']}",
-            unique_id=device['uuid'],
-            device_id=device['id'],
+            device=device,
             api=api,
             coordinator=coordinator
         )
@@ -38,11 +38,10 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     _preset_modes = ["Manual", "Smart", "Sleep"]
 
-    def __init__(self, name: str, unique_id: str, device_id: str, api: AirPorceApi, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, api: AirPorceApi, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
-        self._name = name
-        self._unique_id = unique_id
-        self._device_id = device_id
+        self.device = device
+        self._device_id = device['id']
         self.api = api
 
     def current_mode_id(self):
@@ -50,11 +49,15 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def name(self):
-        return self._name
+        return "Air purifier"
 
     @property
     def unique_id(self):
-        return self._unique_id
+        return f"{self.device['uuid']}-fan",
+
+    @property
+    def device_info(self):
+       device_info(self.device)
 
     @property
     def supported_features(self):
