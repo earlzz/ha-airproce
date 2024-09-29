@@ -3,7 +3,7 @@
         "title": "设置集成",
         "step": {
             "user": {
-                "description": "请输入登录AirPorce账户的手机号",
+                "description": "请输入登录AirProce账户的手机号",
                 "data_description": {
                     "phone_number": "手机号"
                 }

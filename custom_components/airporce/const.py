@@ -1,4 +1,4 @@
-DOMAIN = "airporce"
+DOMAIN = "airproce"
 
 CONFIG_KEY_TOKEN = "token"
 

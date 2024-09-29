@@ -3,7 +3,7 @@
         "title": "Setup integration",
         "step": {
             "user": {
-                "description": "Please enter the phone number for your AirPorce account",
+                "description": "Please enter the phone number for your AirProce account",
                 "data_description": {
                     "phone_number": "Phone number"
                 }

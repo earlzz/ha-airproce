@@ -1,9 +1,9 @@
 {
-    "domain": "airporce",
-    "name": "AirPorce",
+    "domain": "airproce",
+    "name": "AirProce",
     "config_flow": true,
     "version": "1.0.0",
-    "documentation": "https://github.com/jackjinke/ha-airporce",
+    "documentation": "https://github.com/jackjinke/ha-airproce",
     "requirements": ["requests"],
     "dependencies": [],
     "codeowners": ["@jackjinke"],

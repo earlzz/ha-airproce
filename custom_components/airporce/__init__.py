@@ -1,6 +1,6 @@
 import logging
 from datetime import timedelta
-from .api import AirPorceApi
+from .api import AirProceApi
 from .const import DOMAIN, CONFIG_KEY_TOKEN, DATA_KEY_API, DATA_KEY_GROUPS, DATA_KEY_COORDINATOR
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
@@ -11,7 +11,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up from a config entry."""
     # Read the token from the entry's data
     # Initialize your API client with the provided token
-    api = AirPorceApi(token=entry.data[CONFIG_KEY_TOKEN])
+    api = AirProceApi(token=entry.data[CONFIG_KEY_TOKEN])
     
     # Fetch the groups
     response = await hass.async_add_executor_job(api.list_groups)
@@ -32,7 +32,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     coordinator = DataUpdateCoordinator(
         hass,
         logging.getLogger(__name__),
-        name="airporce_devices_status",
+        name="airproce_devices_status",
         update_method=async_get_devices_status,
         update_interval=timedelta(seconds=60),  # Update frequency
     )

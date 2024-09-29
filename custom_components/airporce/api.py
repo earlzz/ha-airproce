@@ -1,7 +1,7 @@
 import requests
 from typing import Optional
 
-class AirPorceApi:
+class AirProceApi:
     base_url = "https://aph.airproce.com"
     country = '中国,大陆'
     lang = 'zh-Hans'    

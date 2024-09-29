@@ -1,7 +1,7 @@
 import logging
 
 from .device import device_info
-from .api import AirPorceApi
+from .api import AirProceApi
 from .const import DOMAIN, DATA_KEY_API, DATA_KEY_GROUPS, DATA_KEY_COORDINATOR
 from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.core import HomeAssistant
@@ -38,7 +38,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     _preset_modes = ["Manual", "Smart", "Sleep"]
 
-    def __init__(self, device: any, api: AirPorceApi, coordinator: DataUpdateCoordinator):
+    def __init__(self, device: any, api: AirProceApi, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
         self.device = device
         self._device_id = device['id']

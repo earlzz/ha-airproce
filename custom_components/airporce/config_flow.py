@@ -1,13 +1,13 @@
 from homeassistant import config_entries
 import voluptuous as vol
-from .api import AirPorceApi
+from .api import AirProceApi
 from .const import DOMAIN, CONFIG_KEY_TOKEN
 
 
-class AirPorceConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class AirProceConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
-    api = AirPorceApi() # This API instance does not have token
+    api = AirProceApi() # This API instance does not have token
 
     async def async_step_user(self, user_input=None):
         errors = {}
