@@ -57,7 +57,7 @@ class AirPurifierTempSensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self.device['uuid']}-temp",
+        return f"{self.device['uuid']}-temp"
 
     @property
     def name(self):
@@ -87,7 +87,7 @@ class AirPurifierHumiditySensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self.device['uuid']}-humidity",
+        return f"{self.device['uuid']}-humidity"
 
     @property
     def name(self):
@@ -117,7 +117,7 @@ class AirPurifierPm25Sensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self.device['uuid']}-pm25",
+        return f"{self.device['uuid']}-pm25"
 
     @property
     def name(self):
@@ -147,7 +147,7 @@ class AirPurifierPm10Sensor(CoordinatorEntity, SensorEntity):
     @property
     def unique_id(self):
         """Return a unique ID."""
-        return f"{self.device['uuid']}-pm10",
+        return f"{self.device['uuid']}-pm10"
 
     @property
     def name(self):

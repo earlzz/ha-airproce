@@ -3,7 +3,7 @@ import logging
 from .device import device_info
 from .api import AirPorceApi
 from .const import DOMAIN, DATA_KEY_API, DATA_KEY_GROUPS, DATA_KEY_COORDINATOR
-from homeassistant.components.fan import FanEntity, SUPPORT_PRESET_MODE
+from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator
@@ -53,7 +53,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def unique_id(self):
-        return f"{self.device['uuid']}-fan",
+        return f"{self.device['uuid']}-fan"
 
     @property
     def device_info(self):
@@ -61,7 +61,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def supported_features(self):
-        return SUPPORT_PRESET_MODE
+        return FanEntityFeature.TURN_ON | FanEntityFeature.TURN_OFF | FanEntityFeature.PRESET_MODE
 
     @property
     def is_on(self):

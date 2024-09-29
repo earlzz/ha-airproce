@@ -1,3 +1,4 @@
 {
-    "name": "AirPorce air purifiers"
+    "name": "AirPorce air purifiers",
+    "homeassistant": "2024.1.0"
 }

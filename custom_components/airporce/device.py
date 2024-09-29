@@ -6,6 +6,6 @@ def device_info(device: any):
             "identifiers": {(DOMAIN, device['uuid'])},  # Unique identifier for this device
             "name": f"{device['model']}-{device['id']}",
             "manufacturer": "AirPorce",
-            "model": "AirPurifier Model",
+            "model": device['model'],
             "sw_version": device['fm']
         }
