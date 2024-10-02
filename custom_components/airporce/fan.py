@@ -85,11 +85,11 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
             return None
 
     async def async_turn_on(self, **kwargs):
-        await self.api.set_mode(self._device_id, 0)
+        await self.hass.async_add_executor_job(self.api.set_mode, self._device_id, 0)
         await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self, **kwargs):
-        await self.api.set_mode(self._device_id, 10)
+        await self.hass.async_add_executor_job(self.api.set_mode, self._device_id, 10)
         await self.coordinator.async_request_refresh()
 
     async def async_set_preset_mode(self, preset_mode: str):
@@ -103,5 +103,5 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
             case _:
                 _LOGGER.error(f"Trying to set an invalid preset mode: {preset_mode}")
                 return
-        await self.hass.async_add_executor_job(self.api.set_mode(self._device_id, mode_id))
+        await self.hass.async_add_executor_job(self.api.set_mode, self._device_id, mode_id)
         await self.coordinator.async_request_refresh()
