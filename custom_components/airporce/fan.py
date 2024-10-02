@@ -84,23 +84,24 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
         else:
             return None
 
-    def turn_on(self, **kwargs):
-        self.api.set_mode(self._device_id, 0)
-        self.hass.async_create_task(self.coordinator.async_request_refresh())
+    async def async_turn_on(self, **kwargs):
+        await self.api.set_mode(self._device_id, 0)
+        await self.coordinator.async_request_refresh()
 
-    def turn_off(self, **kwargs):
-        self.api.set_mode(self._device_id, 10)
-        self.hass.async_create_task(self.coordinator.async_request_refresh())
+    async def async_turn_off(self, **kwargs):
+        await self.api.set_mode(self._device_id, 10)
+        await self.coordinator.async_request_refresh()
 
-    def set_preset_mode(self, preset_mode: str):
-        if preset_mode not in self._preset_modes:
-            _LOGGER.error(f"Trying to set an invalid preset mode: {preset_mode}")
-            return
+    async def async_set_preset_mode(self, preset_mode: str):
         match preset_mode:
             case 'Manual':
-                self.api.set_mode(self._device_id, 1)
+                mode_id = 1
             case 'Smart':
-                self.api.set_mode(self._device_id, 2)
+                mode_id = 2
             case 'Sleep':
-                self.api.set_mode(self._device_id, 20)
-        self.hass.async_create_task(self.coordinator.async_request_refresh())
+                mode_id = 20
+            case _:
+                _LOGGER.error(f"Trying to set an invalid preset mode: {preset_mode}")
+                return
+        await self.hass.async_add_executor_job(self.api.set_mode(self._device_id, mode_id))
+        await self.coordinator.async_request_refresh()
