@@ -1,7 +1,7 @@
 import logging
 import math
 
-from .device import device_info
+from .device import device_info, device_name
 from .api import AirProceApi
 from .const import DOMAIN, DATA_KEY_API, DATA_KEY_GROUPS, DATA_KEY_COORDINATOR
 from homeassistant.components.fan import FanEntity, FanEntityFeature
@@ -54,7 +54,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def name(self):
-        return "Air purifier"
+        return f"{device_name(self.device)} - Fan"
 
     @property
     def unique_id(self):

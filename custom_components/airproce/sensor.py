@@ -1,5 +1,5 @@
 import logging
-from .device import device_info
+from .device import device_info, device_name
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import UnitOfTemperature, PERCENTAGE, CONCENTRATION_MICROGRAMS_PER_CUBIC_METER, CONCENTRATION_MILLIGRAMS_PER_CUBIC_METER
 from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator
@@ -62,7 +62,7 @@ class AirPurifierTempSensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return "Temperature"
+        return f"{device_name(self.device)} - Temperature"
 
     @property
     def device_info(self):
@@ -92,7 +92,7 @@ class AirPurifierHumiditySensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return "Humidity"
+        return f"{device_name(self.device)} - Humidity"
 
     @property
     def device_info(self):
@@ -122,7 +122,7 @@ class AirPurifierPm25Sensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return "PM2.5"
+        return f"{device_name(self.device)} - PM2.5"
 
     @property
     def device_info(self):
@@ -152,7 +152,7 @@ class AirPurifierPm10Sensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return "PM10"
+        return f"{device_name(self.device)} - PM10"
 
     @property
     def device_info(self):
@@ -182,7 +182,7 @@ class AirPurifierVocSensor(CoordinatorEntity, SensorEntity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return "VOC"
+        return f"{device_name(self.device)} - VOC"
 
     @property
     def device_info(self):
