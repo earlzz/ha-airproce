@@ -9,3 +9,7 @@ Custom Home Assistant integration for AirProce air purifiers.
 4. Install the integration
 5. Restart Home Assistant (Settings -> System -> Power icon at top-right corner -> Restart Home Assistant)
 6. Setup integration (Settings -> Device & Services -> Add integration (bottom-right) -> AirProce)
+
+## Development
+
+Run `pip install homeassistant` to install dependencies.

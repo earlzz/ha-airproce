@@ -1,4 +1,5 @@
 import logging
+import math
 
 from .device import device_info
 from .api import AirProceApi
@@ -7,6 +8,9 @@ from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.update_coordinator import CoordinatorEntity, DataUpdateCoordinator
+from homeassistant.util.percentage import ranged_value_to_percentage, percentage_to_ranged_value
+from homeassistant.util.scaling import int_states_in_range
+from typing import Optional
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -36,7 +40,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
 
 class AirPurifierFan(FanEntity, CoordinatorEntity):
 
-    _preset_modes = ["Manual", "Smart", "Sleep"]
+    PRESET_MODES = ["Manual", "Smart", "Sleep"]
+    SPEED_RANK_RANGE = (1, 6)  # off is not included
 
     def __init__(self, device: any, api: AirProceApi, coordinator: DataUpdateCoordinator):
         super().__init__(coordinator)
@@ -61,19 +66,19 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def supported_features(self):
-        return FanEntityFeature.TURN_ON | FanEntityFeature.TURN_OFF | FanEntityFeature.PRESET_MODE
+        return FanEntityFeature.TURN_ON | FanEntityFeature.TURN_OFF | FanEntityFeature.PRESET_MODE | FanEntityFeature.SET_SPEED
 
     @property
-    def is_on(self):
+    def is_on(self) -> Optional[bool]:
         mode_id = self.current_mode_id()
         return not (mode_id >= 10 and mode_id < 20)
 
     @property
-    def preset_modes(self):
-        return self._preset_modes
+    def preset_modes(self) -> Optional[list[str]]:
+        return self.PRESET_MODES
 
     @property
-    def preset_mode(self):
+    def preset_mode(self) -> Optional[str]:
         mode_id = self.current_mode_id()
         if mode_id == 1:
             return 'Manual'
@@ -84,7 +89,18 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
         else:
             return None
 
-    async def async_turn_on(self, **kwargs):
+    @property
+    def percentage(self) -> Optional[int]:
+        """Return the current speed percentage."""
+        speed_rank = self.coordinator.data[self._device_id]['control']['rank']
+        return ranged_value_to_percentage(self.SPEED_RANK_RANGE, speed_rank)
+
+    @property
+    def speed_count(self) -> int:
+        """Return the number of speeds the fan supports."""
+        return int_states_in_range(self.SPEED_RANK_RANGE)
+
+    async def async_turn_on(self, percentage: str = None, preset_mode: str = None, **kwargs):
         await self.hass.async_add_executor_job(self.api.set_mode, self._device_id, 0)
         await self.coordinator.async_request_refresh()
 
@@ -92,7 +108,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
         await self.hass.async_add_executor_job(self.api.set_mode, self._device_id, 10)
         await self.coordinator.async_request_refresh()
 
-    async def async_set_preset_mode(self, preset_mode: str):
+    async def async_set_preset_mode(self, preset_mode: str) -> None:
         match preset_mode:
             case 'Manual':
                 mode_id = 1
@@ -104,4 +120,9 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
                 _LOGGER.error(f"Trying to set an invalid preset mode: {preset_mode}")
                 return
         await self.hass.async_add_executor_job(self.api.set_mode, self._device_id, mode_id)
+        await self.coordinator.async_request_refresh()
+
+    async def async_set_percentage(self, percentage: int) -> None:
+        speed_rank = math.ceil(percentage_to_ranged_value(self.SPEED_RANK_RANGE, percentage))
+        await self.hass.async_add_executor_job(self.api.set_speed_rank, self._device_id, speed_rank)
         await self.coordinator.async_request_refresh()

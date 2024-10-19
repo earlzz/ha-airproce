@@ -62,6 +62,18 @@ class AirProceApi:
             print(f"Error communicating with API: {e}")
             return None
     
+    def set_speed_rank(self, device_id: str, rank: int) -> Optional[bool]:
+        """Set the speed rank (speed level) of the air purifier."""
+        url = f"{self.base_url}/addons/shopro/user_device/action_control"
+        data = {"did": device_id, "rank": rank, "language": self.lang}
+        try:
+            response = requests.post(url, json=data, headers=self.headers)
+            response.raise_for_status()  # Raises HTTPError for bad responses
+            return response.json()
+        except requests.RequestException as e:
+            print(f"Error communicating with API: {e}")
+            return None
+
     def list_groups(self):
         """Fetch the list of devices from the API."""
         url = f"{self.base_url}/addons/shopro/user_device/groupList"
