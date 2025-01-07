@@ -79,7 +79,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
 
     @property
     def preset_mode(self) -> Optional[str]:
-        mode_id = self.current_mode_id()
+        mode_id = int(self.current_mode_id())
         if mode_id == 1:
             return 'Manual'
         elif mode_id == 2:
