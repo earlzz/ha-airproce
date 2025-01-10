@@ -50,7 +50,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
         self.api = api
 
     def current_mode_id(self):
-        return self.coordinator.data[self._device_id]['control']['mode']
+        return int(self.coordinator.data[self._device_id]['control']['mode'])
 
     @property
     def name(self):
@@ -92,7 +92,7 @@ class AirPurifierFan(FanEntity, CoordinatorEntity):
     @property
     def percentage(self) -> Optional[int]:
         """Return the current speed percentage."""
-        speed_rank = self.coordinator.data[self._device_id]['control']['rank']
+        speed_rank = int(self.coordinator.data[self._device_id]['control']['rank'])
         return ranged_value_to_percentage(self.SPEED_RANK_RANGE, speed_rank)
 
     @property

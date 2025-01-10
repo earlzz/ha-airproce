@@ -17,7 +17,7 @@ class AirProceApi:
     def set_token(self, token: str):
         self.headers['token'] = token
 
-    def send_login_sms(self, phone_number: str) -> Optional[bool]:
+    def send_login_sms(self, phone_number: str):
         url = f"{self.base_url}/addons/shopro/sms/send"
         data = {"event": "loginOrRegister", "mobile": phone_number, "language": self.lang}
         try:
@@ -28,7 +28,7 @@ class AirProceApi:
             print(f"Error communicating with API: {e}")
             return None
 
-    def user_login(self, phone_number: str, sms_code: str) -> Optional[bool]:
+    def user_login(self, phone_number: str, sms_code: str):
         url = f"{self.base_url}/addons/shopro/user/smsLoginOrRegister"
         data = {"mobile": phone_number, "code": sms_code, "language": self.lang, "country": self.country}
         try:
@@ -50,7 +50,7 @@ class AirProceApi:
             print(f"Error communicating with API: {e}")
             return None
 
-    def set_mode(self, device_id: str, mode_id: int) -> Optional[bool]:
+    def set_mode(self, device_id: str, mode_id: int):
         """Set the mode of the air purifier."""
         url = f"{self.base_url}/addons/shopro/user_device/action_control"
         data = {"did": device_id, "mode": mode_id, "language": self.lang}
@@ -62,7 +62,7 @@ class AirProceApi:
             print(f"Error communicating with API: {e}")
             return None
     
-    def set_speed_rank(self, device_id: str, rank: int) -> Optional[bool]:
+    def set_speed_rank(self, device_id: str, rank: int):
         """Set the speed rank (speed level) of the air purifier."""
         url = f"{self.base_url}/addons/shopro/user_device/action_control"
         data = {"did": device_id, "rank": rank, "language": self.lang}
