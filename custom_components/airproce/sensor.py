@@ -19,14 +19,6 @@ async def async_setup_entry(hass, entry, async_add_entities):
     for group in groups:
         for device in group['devices']:
             sensors.extend([
-                AirPurifierTempSensor(
-                    device=device,
-                    coordinator=coordinator
-                ),
-                AirPurifierHumiditySensor(
-                    device=device,
-                    coordinator=coordinator
-                ),
                 AirPurifierPm25Sensor(
                     device=device,
                     coordinator=coordinator
